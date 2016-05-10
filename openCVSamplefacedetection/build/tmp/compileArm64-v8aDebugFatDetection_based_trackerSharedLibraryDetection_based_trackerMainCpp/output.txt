@@ -1,0 +1,4 @@
+See file:///home/vesp/work/Android/face-detection6/openCVSamplefacedetection/build/tmp/compileArm64-v8aDebugFatDetection_based_trackerSharedLibraryDetection_based_trackerMainCpp/output.txt for all output for compileArm64-v8aDebugFatDetection_based_trackerSharedLibraryDetection_based_trackerMainCpp.
+compiling DetectionBasedTracker_jni.cpp successful.
+
+Finished compileArm64-v8aDebugFatDetection_based_trackerSharedLibraryDetection_based_trackerMainCpp, see full log file:///home/vesp/work/Android/face-detection6/openCVSamplefacedetection/build/tmp/compileArm64-v8aDebugFatDetection_based_trackerSharedLibraryDetection_based_trackerMainCpp/output.txt.

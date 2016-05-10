@@ -1,0 +1,150 @@
+apply plugin: 'com.android.model.application'
+
+model{
+    android{
+        compileSdkVersion = 23
+        buildToolsVersion = "23.0.2"
+
+        defaultConfig.with {
+            applicationId = "org.opencv.samples.facedetect"
+            minSdkVersion.apiLevel = 19
+            targetSdkVersion.apiLevel = 19
+
+            versionCode = 1
+            versionName = "1.0"
+
+            buildConfigFields.with {
+                create() {
+                    type = "int"
+                    name = "VALUE"
+                    value = "1"
+                }
+            }
+
+            // ここの記述はおかしくなる
+            /*
+            ndk{
+                moduleName "detection_based_tracker"
+            }*/
+        }
+
+    }
+    android.ndk {
+        //libdetection_based_tracker.soという名前のライブラリを作る。この名前は必須事項
+        moduleName = "detection_based_tracker"
+
+        //cppFlags.add("-std=c++11")
+        cppFlags.add("-Werror")
+        cppFlags.add("--debug")
+        cppFlags.add("-frtti")
+        cppFlags.add("-fexceptions")
+        //cppFlags.add("-D__STDC_INT32__")
+        //cppFlags.add("-I${file('/Users/<name>/Library/Android/OpenCV-3.1.0-android-sdk/sdk/native/jni/include')}".toString())
+        //includeのパスを追加　例えば、#include <opencv2/core/core.hpp>のように、パスを省略できる
+        cppFlags.add("-I${file('/home/vesp/work/Android/OpenCV-android-sdk310/sdk/native/jni/include')}".toString())
+        //cppFlags.add("-I${file('/home/vesp/work/Android/OpenCV-android-sdk310/sdk/native/jni/include/opencv2')}".toString())
+        cppFlags.add("-I${file('src/main/jni')}".toString())
+        // CFlags.add("-DCUSTOM_DEFINE")
+        //cppFlags.add("-DCUSTOM_DEFINE")
+        //ldFlags.add("-L/custom/lib/path")
+
+        // Vector等のSTL追加
+        stl = "gnustl_static"
+        //stl = "stlport_static"
+        //stl = "system"
+
+        //C++11化(ライブラリの追加)
+        //ldLibs += ["android", "log", "stdc++", "dl", "z"]
+        ldLibs.addAll(["android", "EGL", "GLESv2", "log", "stdc++", "dl", "z"])
+
+        //ldLibs.add("/home/vesp/AndroidStudioProjects/OpenCV-android-sdk/sdk/native/libs/armeabi-v7a/libopencv_java3.so")
+
+    }
+    android.buildTypes {
+        release {
+            minifyEnabled = false
+            //proguardはセキュリティに必要な設定
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles.add(file("proguard-rules.pro"))
+        }
+    }
+    android.productFlavors {
+        create("flavor1") {
+            applicationId = "com.app"
+        }
+        /*
+        create ("armeabi-v7a") {
+            ndk.with{
+                abiFilters.add("armeabi-v7a")
+                //File currentDir = file('./')
+                //currentDir = file(currentDir.absolutePath)
+                //ndk.ldLibs.add(currentDir.absolutePath + "/src/main/jniLibs/" + "armeabi-v7a" + "/libopencv_java3.so")
+                ldLibs.add("/home/vesp/AndroidStudioProjects/OpenCV-android-sdk/sdk/native/libs/armeabi-v7a/libopencv_java3.so")
+
+            }
+        }
+        create ("armeabi") {
+            ndk.with{
+                abiFilters.add("armeabi")
+                ldLibs.add("/home/vesp/AndroidStudioProjects/OpenCV-android-sdk/sdk/native/libs/armeabi/libopencv_java3.so")
+            }
+        }
+        create ("arm64-v8a") {
+            ndk.with{
+                abiFilters.add("arm64-v8a")
+                ldLibs.add("/home/vesp/AndroidStudioProjects/OpenCV-android-sdk/sdk/native/libs/arm64-v8a/libopencv_java3.so")
+            }
+        }
+        create ("x86") {
+            ndk.with{
+                abiFilters.add("x86")
+                ldLibs.add("/home/vesp/AndroidStudioProjects/OpenCV-android-sdk/sdk/native/libs/x86/libopencv_java3.so")
+            }
+        }
+        create ("x86_64") {
+            ndk.with{
+                abiFilters.add("x86_64")
+                ldLibs.add("/home/vesp/AndroidStudioProjects/OpenCV-android-sdk/sdk/native/libs/x86_64/libopencv_java3.so")
+            }
+        }
+        create ("mips") {
+            ndk.with{
+                abiFilters.add("mips")
+                ldLibs.add("/home/vesp/AndroidStudioProjects/OpenCV-android-sdk/sdk/native/libs/mips/libopencv_java3.so")
+            }
+        }
+        create ("mips64") {
+            ndk.with{
+                abiFilters.add("mips64")
+                ldLibs.add("/home/vesp/AndroidStudioProjects/OpenCV-android-sdk/sdk/native/libs/mips64/libopencv_java3.so")
+            }
+        }*/
+
+        create("fat") {
+
+        }
+    }
+    // Configures source set directory.
+    // C++のあるパッケージ
+    // デフォルトではsrc/main/jniを参照するが、変更する場合はこのsourcesを使う
+    android.sources {
+        main {
+            java {
+                source {
+                    srcDir "src"
+                }
+            }
+        }
+    }
+    compileOptions.with {
+        sourceCompatibility = JavaVersion.VERSION_1_7
+        targetCompatibility = JavaVersion.VERSION_1_7
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: "libs", include: ["*.jar"])
+    compile "com.android.support:appcompat-v7:23.1.0"
+    compile project(':openCVLibrary310')
+}

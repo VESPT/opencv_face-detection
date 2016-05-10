@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/home/vesp/work/Android/face-detection6/openCVSamplefacedetection/src/androidTest/assets"/></dataSet><dataSet config="fat"><source path="/home/vesp/work/Android/face-detection6/openCVSamplefacedetection/src/androidTestFat/assets"/></dataSet></merger>
